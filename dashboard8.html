@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevLearn Super Pro</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--primary:#0a2a66;
+--accent:#ff5722;
+--bg:#f4f4f4;
+--dark:#111;
+--light:#fff;
+--success:#4CAF50;
+--error:#f44336;
+}
+body{margin:0;font-family:'Roboto',sans-serif;background:var(--bg);transition:0.3s;}
+.topbar{
+background:black;color:white;padding:12px;position:fixed;width:100%;top:0;z-index:1000;
+display:flex;justify-content:center;flex-wrap:wrap;box-shadow:0 3px 6px rgba(0,0,0,0.2);}
+.topbar button{
+background:var(--primary);color:white;border:none;padding:8px 18px;margin:4px;border-radius:5px;
+cursor:pointer;font-weight:bold;display:flex;align-items:center;}
+.topbar button img{width:18px;margin-right:6px;}
+.topbar button:hover{opacity:0.85;}
+
+.content{margin-top:90px;padding:30px;max-width:1000px;margin:auto;background:white;border-radius:10px;box-shadow:0 3px 8px rgba(0,0,0,0.2);}
+.section{margin-bottom:70px;}
+h2{color:var(--primary);display:flex;align-items:center;}
+h2 img{width:40px;margin-right:10px;}
+.codeblock{background:#1e1e1e;color:#00ff99;padding:15px;border-radius:6px;font-family:monospace;white-space:pre-wrap;margin-top:10px;}
+.progress-container{position:fixed;bottom:0;width:100%;background:#ddd;border-top:2px solid var(--primary);}
+.progress-bar{height:25px;background:var(--primary);width:0%;color:white;text-align:center;line-height:25px;font-weight:bold;transition:width 0.3s;}
+.editor{display:none;position:fixed;top:100px;left:0;width:100%;height:65%;background:#1e1e1e;color:white;z-index:900;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,0.5);}
+.split{display:flex;height:100%;}
+textarea{width:50%;height:100%;background:#1e1e1e;color:#00ff99;font-family:monospace;padding:12px;border:none;outline:none;resize:none;}
+.preview{width:50%;background:#fefefe;overflow:auto;padding:15px;border-left:3px solid var(--primary);}
+.exercise-btn{background:var(--primary);color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;margin-top:10px;}
+.exercise-btn:hover{background:var(--accent);}
+.badge{background:gold;padding:4px 10px;border-radius:4px;font-size:12px;margin-left:5px;}
+.dark-mode{background:#111 !important;color:white !important;}
+.dark-mode .content{background:#222;color:white;}
+.dark-mode .codeblock{background:#222;color:#00ff99;}
+.dark-mode .preview{background:#333;color:white;}
+.quiz-box{background:#eee;padding:15px;border-radius:6px;margin-top:20px;}
+.quiz-box button{background:var(--primary);color:white;border:none;padding:6px 12px;border-radius:4px;margin:3px;cursor:pointer;}
+.quiz-box button:hover{background:var(--accent);}
+#quizResult{margin-top:10px;font-weight:bold;}
+.lesson-img{width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:10px;margin-bottom:10px;}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+<button onclick="openEditor()"><img src="https://img.icons8.com/color/48/000000/code.png"/>CODE</button>
+<button onclick="downloadCode()"><img src="https://img.icons8.com/color/48/000000/download.png"/>DOWNLOAD</button>
+<button onclick="showProgress()"><img src="https://img.icons8.com/color/48/000000/progress-bar.png"/>PROGRESS</button>
+<button onclick="toggleMode()"><img src="https://img.icons8.com/color/48/000000/night-mode.png"/>DARK/LIGHT</button>
+<button onclick="changeSubject()"><img src="https://img.icons8.com/color/48/000000/switch.png"/>SUBJECT</button>
+<button onclick="generateCertificate()"><img src="https://img.icons8.com/color/48/000000/certificate.png"/>CERTIFICATE</button>
+</div>
+
+<div class="editor" id="editor">
+<div class="split">
+<textarea id="codeArea" oninput="autoSave();validateCode();"></textarea>
+<div class="preview" id="preview"></div>
+</div>
+</div>
+
+<div class="content" id="content">
+
+<div class="section">
+<h2><img src="https://img.icons8.com/color/96/000000/html-5.png"/>Lesson 1: HTML Intro</h2>
+<img class="lesson-img" src="https://images.unsplash.com/photo-1555617117-08e3483be678?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"/>
+<p>HTML is the structure of a webpage. Use &lt;html&gt; and &lt;body&gt; tags.</p>
+<div class="codeblock" id="lessonCode">&lt;html&gt;
+&lt;body&gt;Hello World&lt;/body&gt;
+&lt;/html&gt;</div>
+<button class="exercise-btn" onclick="startExercise()">EXERCISE</button>
+</div>
+
+<div class="section">
+<h2><img src="https://img.icons8.com/color/96/000000/css3.png"/>Lesson 2: CSS Basics</h2>
+<img class="lesson-img" src="https://images.unsplash.com/photo-1581091215366-2a2c0ec593c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"/>
+<p>CSS styles your webpage. Use selectors and properties.</p>
+<div class="codeblock">&lt;style&gt;
+body {background-color:lightblue;}
+&lt;/style&gt;</div>
+<button class="exercise-btn" onclick="startExercise()">EXERCISE</button>
+</div>
+
+<div class="section">
+<h2><img src="https://img.icons8.com/color/96/000000/javascript.png"/>Lesson 3: JavaScript Basics</h2>
+<img class="lesson-img" src="https://images.unsplash.com/photo-1590608897129-79ec5ecfae3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"/>
+<p>JavaScript adds interactivity. Use &lt;script&gt; tag and functions.</p>
+<div class="codeblock">&lt;script&gt;
+alert('Hello World!');
+&lt;/script&gt;</div>
+<button class="exercise-btn" onclick="startExercise()">EXERCISE</button>
+</div>
+
+<div class="quiz-box">
+<h3>Quick Quiz</h3>
+<p>Which tag creates a paragraph?</p>
+<button onclick="checkQuiz(this,'p')">&lt;p&gt;</button>
+<button onclick="checkQuiz(this,'wrong')">&lt;div&gt;</button>
+<button onclick="checkQuiz(this,'wrong')">&lt;h1&gt;</button>
+<p id="quizResult"></p>
+</div>
+
+</div>
+
+<div class="progress-container">
+<div class="progress-bar" id="progressBar">0%</div>
+</div>
+
+<script>
+// GLOBAL VARIABLES
+let subject="HTML";
+let progress=localStorage.getItem("progress")||0;
+let xp=localStorage.getItem("xp")||0;
+let codeArea=document.getElementById("codeArea");
+codeArea.value=localStorage.getItem("autosave")||"";
+updateProgress(progress);
+
+// PROGRESS BAR
+window.onscroll=function(){
+let sc=(document.documentElement.scrollTop/(document.documentElement.scrollHeight-document.documentElement.clientHeight))*100;
+if(sc>progress) updateProgress(Math.round(sc));
+}
+function updateProgress(val){
+progress=val;
+localStorage.setItem("progress",progress);
+document.getElementById("progressBar").style.width=progress+"%";
+document.getElementById("progressBar").innerHTML=progress+"%";
+}
+
+// EDITOR FUNCTIONS
+function openEditor(){document.getElementById("editor").style.display="block";}
+function startExercise(){openEditor();}
+function autoSave(){localStorage.setItem("autosave",codeArea.value);livePreview();validateCode();}
+function livePreview(){document.getElementById("preview").innerHTML=codeArea.value;}
+function downloadCode(){
+let blob=new Blob([codeArea.value],{type:"text/html"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="mycode.html";a.click();
+}
+function showProgress(){alert("Progress: "+progress+"%\nXP: "+xp);}
+function toggleMode(){document.body.classList.toggle("dark-mode");}
+
+// CHANGE SUBJECT
+function changeSubject(){
+if(subject==="HTML"){subject="CSS";document.getElementById("lessonTitle").innerText="CSS Intro";document.getElementById("lessonCode").innerText="body { background: blue; }";}
+else if(subject==="CSS"){subject="JavaScript";document.getElementById("lessonTitle").innerText="JS Intro";document.getElementById("lessonCode").innerText="alert('Hello World');";}
+else{subject="HTML";document.getElementById("lessonTitle").innerText="HTML Intro";document.getElementById("lessonCode").innerText="<html>\n<body>Hello</body>\n</html>";}
+}
+
+// QUIZ
+function checkQuiz(btn,type){
+if(type==="p"){document.getElementById("quizResult").innerHTML="✔ Correct!";xp+=10;localStorage.setItem("xp",xp);}
+else{document.getElementById("quizResult").innerHTML="✖ Wrong answer!";}
+}
+
+// CERTIFICATE
+function generateCertificate(){
+if(progress<80){alert("Complete at least 80% to get certificate.");return;}
+let win=window.open();
+win.document.write("<h1>Certificate of Completion</h1>");
+win.document.write("<p>This certifies that Roosevelt has completed the course.</p>");
+win.document.write("<p>XP Earned: "+xp+"</p>");
+win.print();
+}
+
+// REAL-TIME CODE VALIDATION
+function validateCode(){
+let code=codeArea.value;
+if(subject==="HTML" && !code.includes("<html>")||!code.includes("<body>")) codeArea.style.borderLeft="4px solid red";
+else if(subject==="CSS" && !code.includes("{")) codeArea.style.borderLeft="4px solid red";
+else if(subject==="JavaScript" && !code.includes("alert")) codeArea.style.borderLeft="4px solid red";
+else codeArea.style.borderLeft="4px solid lime";
+}
+
+// KEYBOARD SHORTCUT CTRL+S
+document.addEventListener("keydown",function(e){if(e.ctrlKey && e.key==="s"){e.preventDefault();downloadCode();}});
+</script>
+
+</body>
+</html>
